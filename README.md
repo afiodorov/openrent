@@ -96,6 +96,9 @@ Also you probably want to modify `query_string` too:
                     isLive="true"))
 ```
 
+In my configuration I am looking at properties within 10 km's of `work_addr1`
+and the notification includes a link to TFL directions to the `work_addr2`.
+
 # Example of a notification
 
 ![Example notification](./example.png)

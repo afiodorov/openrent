@@ -32,7 +32,8 @@ def directions_link(prop):
 
     start_addr = ",".join(prop['title'].split(",")[1:])
 
-    return "Directions <{0}|{0}>".format(maps_link(start_addr, work_addr2))
+    return "Directions <{}|to {}>".format(
+        maps_link(start_addr, work_addr2), work_addr2)
 
 
 def links_filepath():
