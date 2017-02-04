@@ -30,11 +30,12 @@ def property_filepath(property_id):
 def parse_location_table(soup):
     data = []
     table = soup.find('div', attrs={'id': 'LocalTransport'})
-    rows = table.find_all('tr')
-    for row in rows[1:]:
-        cols = row.find_all('td')
-        cols = [ele.text.strip() for ele in cols]
-        data.append([ele for ele in cols if ele])
+    if table:
+        rows = table.find_all('tr')
+        for row in rows[1:]:
+            cols = row.find_all('td')
+            cols = [ele.text.strip() for ele in cols]
+            data.append([ele for ele in cols if ele])
 
     return data
 
