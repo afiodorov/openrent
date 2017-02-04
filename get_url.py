@@ -2,6 +2,7 @@
 
 import argparse
 import urllib.request
+import urllib.error
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 import os
@@ -90,8 +91,13 @@ def parse_property_page(property_id, debug=False):
             print("Skipping as it already exists")
             return
 
-    html_doc = urllib.request.urlopen("http://www.openrent.co.uk/" +
-                                      property_id).read()
+    try:
+        html_doc = urllib.request.urlopen("http://www.openrent.co.uk/" +
+                                          property_id).read()
+    except urllib.error.HTTPError:
+        with open(property_filepath(property_id), "w") as f:
+            print("Problem parsing %s. Leaving an empty file." % property_id)
+
     soup = BeautifulSoup(html_doc, 'html.parser')
     preprocess(soup)
 
