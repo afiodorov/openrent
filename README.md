@@ -7,7 +7,7 @@ Be the first one to contact the landlord!
 
 # How it works
 
-`./get_properties.py` gets the list of candidate properties than parses each and
+`./get_properties.py` gets the list of candidate properties then parses each and
 notifies if the property is promising.
 
 Links to parsed properties are stored in `links.json` whilst data about each property
