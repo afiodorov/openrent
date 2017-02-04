@@ -1,0 +1,3 @@
+slackclient
+beautifulsoup4
+dateparser
