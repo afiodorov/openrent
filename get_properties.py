@@ -127,6 +127,8 @@ def update_list(should_notify=True):
     if os.path.isfile(links_filepath()):
         with open(links_filepath()) as f:
             existing_links = json.load(f)
+    else:
+        existing_links = {}
 
     with open(links_filepath(), 'w') as f:
         latest_links = [x['href'][1:] for x
