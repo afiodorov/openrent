@@ -154,9 +154,9 @@ if __name__ == "__main__":
                         default=False)
     args = parser.parse_args()
 
-    should_notify = not args.nonotify
+    should_notify_ = not args.nonotify
     if not os.path.isfile(links_filepath()):
-        should_notify = False
+        should_notify_ = False
         print("No links.json detected. This must be the first run: not"
               " notifying about all suitable properties.")
-    update_list(should_notify=should_notify)
+    update_list(should_notify=should_notify_)
