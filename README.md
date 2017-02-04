@@ -102,3 +102,10 @@ and the notification includes a link to TFL directions to the `work_addr2`.
 # Example of a notification
 
 ![Example notification](./example.png)
+
+# Development
+
+`links.json` is an auxiliary file, however it's useful for trying out the new
+logic for the notifications. Deleting a property from there will make
+`./get_properties.py` script think that it's a new property but getting the
+body of that property from openrent and parsing will be skipped.
