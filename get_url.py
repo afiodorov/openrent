@@ -97,6 +97,7 @@ def parse_property_page(property_id, debug=False):
     except urllib.error.HTTPError:
         with open(property_filepath(property_id), "w") as f:
             print("Problem parsing %s. Leaving an empty file." % property_id)
+            return
 
     soup = BeautifulSoup(html_doc, 'html.parser')
     preprocess(soup)
