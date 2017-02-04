@@ -124,8 +124,9 @@ def update_list(should_notify=True):
     html_doc = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(html_doc, 'html.parser')
 
-    with open(links_filepath()) as f:
-        existing_links = json.load(f)
+    if os.path.isfile(links_filepath()):
+        with open(links_filepath()) as f:
+            existing_links = json.load(f)
 
     with open(links_filepath(), 'w') as f:
         latest_links = [x['href'][1:] for x
