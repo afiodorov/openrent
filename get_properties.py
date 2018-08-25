@@ -15,7 +15,6 @@ with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
     config = json.load(f)
     token = config["slack_token"]
     work_addr1 = config["work_addr1"]
-    work_addr2 = config["work_addr2"]
 
 sc = SlackClient(token)
 
@@ -33,7 +32,7 @@ def directions_link(prop):
     start_addr = ",".join(prop['title'].split(",")[1:])
 
     return "Directions <{}|to {}>".format(
-        maps_link(start_addr, work_addr2), work_addr2)
+        maps_link(start_addr, work_addr1), work_addr1)
 
 
 def links_filepath():
@@ -47,8 +46,8 @@ def should_notify(prop):
     desc = prop['description']
     epc = prop['EPC']
 
-    if price > 1500:
-        return False, "too expensive: %s > 1500" % price
+    if price > 1400:
+        return False, "too expensive: %s > 1400" % price
     if price < 1000:
         return False, "too cheap: %s < 1000" % price
 
@@ -112,11 +111,11 @@ def notify(property_id):
 def update_list(should_notify=True):
     query_string = urlencode(
         OrderedDict(term=work_addr1,
-                    within="10",
+                    within="5",
                     prices_min=1100,
-                    prices_max=1500,
+                    prices_max=1400,
                     bedrooms_min=1,
-                    bedrooms_max=2,
+                    bedrooms_max=1,
                     isLive="true"))
 
     url = ("http://www.openrent.co.uk/properties-to-rent/?%s" % query_string)
@@ -132,7 +131,7 @@ def update_list(should_notify=True):
 
     with open(links_filepath(), 'w') as f:
         latest_links = [x['href'][1:] for x
-                        in soup.find_all("a", class_="banda pt")]
+                        in soup.find_all("a", class_="banda pt listing-title")]
         print("Received %s property links..." % len(latest_links))
         latest_and_old = list(set(latest_links) | set(existing_links))
         json.dump(latest_and_old, f, indent=4)

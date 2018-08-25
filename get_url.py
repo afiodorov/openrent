@@ -11,12 +11,12 @@ import dateparser
 
 
 def preprocess(soup):
-    ticks = soup.find_all("i", attrs={'class': 'icon-ok'})
+    ticks = soup.find_all("i", attrs={'class': 'fa fa-check'})
     for tick in ticks:
         if tick.text == "":
             tick.string = "yes"
 
-    ticks = soup.find_all("i", attrs={'class': 'icon-remove'})
+    ticks = soup.find_all("i", attrs={'class': 'fa fa-times'})
     for tick in ticks:
         if tick.text == "":
             tick.string = "no"
@@ -42,17 +42,20 @@ def parse_location_table(soup):
 
 
 def get_title(soup):
-    return soup.find("h1", attrs={'class': "propertyTitle"}).text.strip()
+    return soup.find("h1", attrs={'class': "property-title"}).text.strip()
 
 
 def parse_feature_table(soup):
+    def process_el(el):
+        return el.text.strip()
+
     data = []
     tables = soup.find('div', attrs={'id': 'Features'}).find_all('table')
     for table in tables:
         rows = table.find_all('tr')
         for row in rows:
             cols = row.find_all('td')
-            cols = [ele.text.strip() for ele in cols]
+            cols = [process_el(ele) for ele in cols]
             data.append([ele for ele in cols if ele])
     return data
 
@@ -101,10 +104,10 @@ def parse_property_page(property_id, debug=False):
     soup = BeautifulSoup(html_doc, 'html.parser')
     preprocess(soup)
 
-    price = soup.find_all("h3", {"class": "banda perMonthPrice"})[0]
+    price = soup.find_all("h3", {"class": "perMonthPrice"})[0]
     price = float(price.text[1:].replace(',', ''))
 
-    desc = soup.find_all("div", {"class": "well description hovertip"})[0]
+    desc = soup.find_all("div", {"class": "description"})[0]
     desc = desc.get_text().strip()
     desc.replace("\t", "")
 
